@@ -39,12 +39,16 @@ def most_maker(e):
     global peniaze
     global mosty_idecka
     if canvas.itemcget("switcher", "image") == "pyimage3":
-        if canvas.itemcget("most", "image") == "pyimage5":
-            canvas.itemconfig("most", image=mosty[1])
-        else:
-            x = (e.x//50) *50
-            y = (e.y//50)*50
-            idecko= canvas.find_withtag("current")[0]
+        x = (e.x//50) *50
+        y = (e.y//50)*50
+        idecko= canvas.find_withtag("current")[0]
+        print(idecko in mosty_idecka)
+        if idecko in mosty_idecka:
+            print(idecko)
+            canvas.delete(idecko)
+            print(x,y)
+            canvas.create_image(x, y, image=mosty[1], tags="most", anchor="nw")
+        elif idecko not in mosty_idecka and peniaze>=10:
             print(idecko)
             print(x, y)
             mosty_idecka.append(idecko)
