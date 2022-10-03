@@ -20,7 +20,7 @@ peniaze = 60
 
 
 def clik_switcher(e):
-    #print(canvas.itemcget("switcher", "image"))
+    print(canvas.itemcget("switcher", "image"))
     if canvas.itemcget("switcher", "image") == "pyimage3":
         canvas.itemconfig("switcher", image=obrazky[1])
 
@@ -37,22 +37,15 @@ def clik_switcher_teacher(e):
 mosty_idecka= []
 def most_maker(e):
     global peniaze
-    global mosty_idecka
     if canvas.itemcget("switcher", "image") == "pyimage3":
         x = (e.x//50) *50
         y = (e.y//50)*50
-        idecko= canvas.find_withtag("current")[0]
-        print(idecko in mosty_idecka)
-        if idecko in mosty_idecka:
-            print(idecko)
-            canvas.delete(idecko)
-            print(x,y)
-            canvas.create_image(x, y, image=mosty[1], tags="most", anchor="nw")
-        elif idecko not in mosty_idecka and peniaze>=10:
-            print(idecko)
-            print(x, y)
-            mosty_idecka.append(idecko)
-            print(mosty_idecka)
+        if canvas.itemcget("current", "image") == "pyimage5":
+            canvas.itemconfig("current", image = mosty[1], tags = "most")
+        elif canvas.itemcget("current", "image") == "pyimage6":
+            canvas.itemconfig("current", image = mosty[0], tags = "most")
+
+        elif canvas.itemcget("current", "image") == "pyimage2" and peniaze>=10:
             peniaze -=10
             canvas.create_rectangle(345,65,400,115, fill  = "pink",outline = "pink")
             canvas.create_text(375,80, text = str(peniaze), font=('Helvetica','30','bold'))
@@ -69,6 +62,7 @@ def most_maker(e):
         peniaze -=50
         canvas.create_rectangle(345, 65, 400, 115, fill="pink", outline="pink")
         canvas.create_text(375, 80, text=str(peniaze), font=('Helvetica', '30', 'bold'))
+
 
 
 #TODO Musime zariadit, aby ked je switcher hnedy,tak sa menia polia na tem, ak modry, tak sa menia polia na mosty
@@ -90,11 +84,15 @@ def create_screen():
                 voda.append(temp)
     canvas.create_image(400,10,anchor = "ne",image = obrazky[0], tags = "switcher")
 
-
+# TODO def zmen(e):
+    # idecko
+#item c get - dostat property image, ak 1 TAK ZMENIT. AJ NAOPAK
+#GET ITEM CGET do if , potom item config
 
 create_screen()
 canvas.tag_bind("switcher","<Button-1>", clik_switcher) #pripíname udalosť na objekty s konkrétnym tagom
 canvas.tag_bind("water","<Button-1>", most_maker)
+canvas.tag_bind("most", "<Button-1>", most_maker)
 
 
 win.mainloop()
@@ -103,3 +101,7 @@ win.mainloop()
 #DOMACA ULOHA - ked most klik tak sa otoci, podla stavu pocitadla,ak je parne pridaj zem, inak pridaj most(u nas to pojde na pyimage 3 a pyimagw4
 #peniaze , odovzdat do utorka
 # piatok  prví traja kucerovia, 1 sa nahodne vyberie- 2,4,5- textove subory
+
+
+#znicit vodu , najst suradnicu danej vody, natvrdo create novy obrazok - suradnice vody, image = novy obrazok
+#
